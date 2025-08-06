@@ -1,19 +1,27 @@
-import { Route,Routes } from "react-router-dom"
-import HomeScreen from "./screens/HomeScreen"
+import { Route, Routes } from "react-router-dom"
+import HomeScreen from "./screens/HomeScreen.jsx"
+import './assets/styles/bootstrap.custom.css'
+import './assets/styles/index.css'
+import LoginScreen from "./screens/LoginScreen.jsx"
+import RegisterScreen from "./screens/RegisterScreen.jsx"
+import Header from "./components/Header.jsx"
+import { Container } from "react-bootstrap"
 
 function App() {
-  
-
-  return (
+   return (
     <>
-    <Routes>
-
-    <Route path="/" element={<HomeScreen/>}/>
-
-    </Routes>
-      
+      <Header />
+      <main className="py-3">
+        <Container>
+          <Routes>
+            <Route path="/" element={<HomeScreen />} />
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/register" element={<RegisterScreen />} />
+          </Routes>
+        </Container>
+      </main>
     </>
-  )
+  );
 }
 
 export default App;
