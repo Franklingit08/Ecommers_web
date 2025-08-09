@@ -6,9 +6,10 @@ import LoginScreen from "./screens/LoginScreen.jsx"
 import RegisterScreen from "./screens/RegisterScreen.jsx"
 import Header from "./components/Header.jsx"
 import { Container } from "react-bootstrap"
+import ToastContainer from "react-bootstrap"
 
 function App() {
-   return (
+  return (
     <>
       <Header />
       <main className="py-3">
@@ -17,9 +18,25 @@ function App() {
             <Route path="/" element={<HomeScreen />} />
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
+
+            <Route path="/admin/productlist" element={<ProductListScreen/>}/>
+
           </Routes>
         </Container>
       </main>
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        limit={3}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 }

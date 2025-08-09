@@ -1,9 +1,11 @@
-import { useState } from 'react'
-import { Form, Button } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
-import FormContainer from '../../components/FormContainer'
-import Loader from '../../components/Loader'
-import Message from '../../components/Message'
+import { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import FormContainer from '../../components/FormContainer';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import { useCreateProductMutation } from '../../slices/productApiSlice'
+import { toast, Toast } from 'react-toastify';
 
 
 const ProductAddScreen = () => {
@@ -16,25 +18,47 @@ const ProductAddScreen = () => {
     const [countInStock, setCountInStock] = useState(0);
     const [description, setDescription] = useState("");
 
+    const [createProduct, { isLoading, error }] = useCreateProductMutation();
+
+    const navigate = useNavigate()
+
     const submitHandler = async (e) => {
         e.preventDefault();
+        try {
+            let data = new FormData()
+
+            data.append('name', name)
+            data.append('price', price)
+            data.append('brand', brand)
+            data.append('category', category)
+            data.append('countInStock', countInStock)
+            data.append('description', description)
+            data.append('image', image)
+
+
+            await createProduct(data).unwrap()
+
+            toast.success('Product Added')
+
+            navigate('/admin/productlist')
+
+        } catch (error) {
+            toast.error(error?.data || error?.data?.message)
+        }
     };
 
-    let loadingUpdate=false
-    let isLoading=false
 
     return (
-        <>
-            <Link to="/admin/productlist" className="btn btn-light my-3">
+      <>
+       <Link to="/admin/productlist" className="btn btn-light my-3">
                 Go Back
-            </Link>
-            <FormContainer>
-                <h1>Edit Product</h1>
-                {loadingUpdate && <Loader />}
-                {isLoading ? (
-                    <Loader />
+       </Link>
+       <FormContainer>
+             <h1>Edit Product</h1>
+            {isLoading ? (
+            <Loader />
                 ) : error ? (
-                    <Message variant="danger">{error}</Message>
+            <Message variant="danger">{error}</Message>
                 ) : (
                     <Form onSubmit={submitHandler}>
                         <Form.Group controlId="name">
@@ -55,21 +79,14 @@ const ProductAddScreen = () => {
                                 onChange={(e) => setPrice(e.target.value)}
                             ></Form.Control>
                         </Form.Group>
-                        {/* <Form.Group controlId="image">
-              <Form.Label>Image</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter image url"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-              ></Form.Control>
-              <Form.Control
-                label="Choose File"
-                onChange={uploadFileHandler}
-                type="file"
-              ></Form.Control>
-              {loadingUpload && <Loader />}
-            </Form.Group> */}
+                        <Form.Group controlId="image">
+                            <Form.Label>Image</Form.Label>
+                            <Form.Control
+                                label="Choose File"
+                                onChange={(e) => { e.target.files[0] }}
+                                type="file"
+                            ></Form.Control>
+                        </Form.Group>
                         <Form.Group controlId="brand">
                             <Form.Label>Brand</Form.Label>
                             <Form.Control
@@ -111,7 +128,7 @@ const ProductAddScreen = () => {
                             variant="primary"
                             style={{ marginTop: "1rem" }}
                         >
-                            Update
+                            ADD
                         </Button>
                     </Form>
                 )}
