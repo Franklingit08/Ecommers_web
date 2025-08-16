@@ -3,14 +3,32 @@ import Users from '../models/userModel.js';
 import asyncHandler from '../middlewares/asyncHandler.js'
 
 
-const getProducts = asyncHandler(async (req, res) => { })
+const getProducts = asyncHandler(async (req, res) => {
+
+    let pageSize = 2
+
+    let page = Number(req.query.pageNumber) || 1
+
+    let keywordCondition = req.query.keyword ?
+        { name: { $regex: req.query.keyword, $options: 'i' } }
+        : {};
+
+    let count = await Products.countDocuments({ ...keywordCondition })
+
+    let products = await Products.find({ ...keywordCondition })
+        .limit(pageSize)
+        .skip(pageSize * (page - 1))
+
+    res.json({ products, page, pages: Math.ceil(count/ pageSize)})
+
+})
 
 
 
-const getProductsByid = asyncHandler(async (req, res) => {
+const getProductByid = asyncHandler(async (req, res) => {
     let product = await Products.findById(req.params.id)
     if (product) {
-        return res.json(products)
+        return res.json(product)
     } else {
         res.status(404)
         throw new Error('Product Not Found');
@@ -19,9 +37,15 @@ const getProductsByid = asyncHandler(async (req, res) => {
 
 
 const createProduct = asyncHandler(async (req, res) => {
-    const { name, brand, category, description, countInStock } = req.body;
+    const { name, brand, category, description, price, countInStock } = req.body;
+
+
+    console.log(req)
 
     const image = req.file ? req.file.path : null;
+
+    console.log(image)
+
     const product = await Products.create({
         user: req.user._id,
         name,
@@ -41,14 +65,14 @@ const createProduct = asyncHandler(async (req, res) => {
 const updateProduct = asyncHandler(async (req, res) => {
     let { name, price, category, countInStock, brand, description } = req.body;
 
-    let product = await Products.finndById(req.params.id)
+    let product = await Products.findById(req.params.id)
     if (product) {
         product.name = name || product.name
         product.price = price || product.price
         product.category = category || product.category
         product.countInStock = countInStock || product.countInStock
         product.brand = brand || product.brand
-        product.descriptiion = description || product.description
+        product.description = description || product.description
         product.image = req.file ? req.file.path : product.image
 
         const productUpdate = await product.save()
@@ -61,25 +85,29 @@ const updateProduct = asyncHandler(async (req, res) => {
 });
 
 
-const deleteProduct = asyncHandler(async (req, res) => { 
+const deleteProduct = asyncHandler(async (req, res) => {
     let product = await Products.findById(req.params.id)
 
-    if(product){
-        await Product.deleteOne({_id:Product._id})
-        res.json({message: "product removed"})
-    }else{
+    if (product) {
+        await product.deleteOne({ _id: Product._id })
+        res.json({ message: "product removed" })
+    } else {
         res.status(404)
-        throw new Error ('Product Not Found')
+        throw new Error('Product Not Found')
     }
 })
 
 
-
+const getAllProducts = asyncHandler(async (req, res) => {
+    const products = await Products.find()
+    res.json(products)
+})
 
 export {
     getProducts,
-    getProductsByid,
+    getProductByid,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getAllProducts
 }

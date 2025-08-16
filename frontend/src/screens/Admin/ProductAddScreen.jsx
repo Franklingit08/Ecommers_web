@@ -5,7 +5,7 @@ import FormContainer from '../../components/FormContainer';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import { useCreateProductMutation } from '../../slices/productApiSlice'
-import { toast, Toast } from 'react-toastify';
+import { toast, } from 'react-toastify';
 
 
 const ProductAddScreen = () => {
@@ -25,6 +25,13 @@ const ProductAddScreen = () => {
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
+
+            if (price < 0 || countInStock < 0) {
+                toast.error('Price and stock count must be non-negative');
+                return;
+            }
+
+
             let data = new FormData()
 
             data.append('name', name)
@@ -36,7 +43,9 @@ const ProductAddScreen = () => {
             data.append('image', image)
 
 
+
             await createProduct(data).unwrap()
+
 
             toast.success('Product Added')
 
@@ -49,16 +58,16 @@ const ProductAddScreen = () => {
 
 
     return (
-      <>
-       <Link to="/admin/productlist" className="btn btn-light my-3">
+        <>
+            <Link to="/admin/productlist" className="btn btn-light my-3">
                 Go Back
-       </Link>
-       <FormContainer>
-             <h1>Edit Product</h1>
-            {isLoading ? (
-            <Loader />
+            </Link>
+            <FormContainer>
+                <h1>Add Product</h1>
+                {isLoading ? (
+                    <Loader />
                 ) : error ? (
-            <Message variant="danger">{error}</Message>
+                    <Message variant="danger">{error}</Message>
                 ) : (
                     <Form onSubmit={submitHandler}>
                         <Form.Group controlId="name">
@@ -76,14 +85,18 @@ const ProductAddScreen = () => {
                                 type="number"
                                 placeholder="Enter price"
                                 value={price}
-                                onChange={(e) => setPrice(e.target.value)}
+                                onChange={(e) => {
+                                    setPrice(e.target.value)
+                                }}
                             ></Form.Control>
                         </Form.Group>
                         <Form.Group controlId="image">
                             <Form.Label>Image</Form.Label>
                             <Form.Control
                                 label="Choose File"
-                                onChange={(e) => { e.target.files[0] }}
+                                onChange={(e) => {
+                                    setImage(e.target.files[0]);
+                                }}
                                 type="file"
                             ></Form.Control>
                         </Form.Group>
@@ -132,7 +145,7 @@ const ProductAddScreen = () => {
                         </Button>
                     </Form>
                 )}
-            </FormContainer>
+            </FormContainer >
         </>
     );
 };

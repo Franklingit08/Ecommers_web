@@ -4,7 +4,7 @@ import express from 'express';
 const productRoute = express.Router()
 
 import { admin, protect } from '../middlewares/authMiddlewares.js'
-import { createProduct, deleteProduct, updateProduct, getProducts, getProductsByid } from '../controllers/productController.js'
+import { createProduct, deleteProduct, updateProduct, getProducts, getProductByid, getAllProducts } from '../controllers/productController.js'
 import { productParser } from '../config/uploads.js'
 
 
@@ -12,11 +12,14 @@ import { productParser } from '../config/uploads.js'
 productRoute
 .route('/')
 .get(getProducts)
-. post(protect, admin, productParser.single('image'), createProduct);
+.post(protect, admin, productParser.single('image'), createProduct);
+
+
+productRoute.route('/getAllProducts').get(protect , admin , getAllProducts)
 
 productRoute
     .route('/:id')
-    .get(getProductsByid)
+    .get(getProductByid)
     .put(protect, admin, productParser.single('image'), updateProduct)
     .delete(protect, admin, deleteProduct)
 

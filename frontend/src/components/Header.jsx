@@ -2,10 +2,11 @@ import React from 'react'
 import { Navbar, Container, Nav, NavDropdown, Badge } from 'react-bootstrap'
 import { FaShoppingCart, FaUser } from 'react-icons/fa'
 import { useNavigate, Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 function Header() {
 
-  const { userInfo } = useSelector((State) => state.auth)
+  const { userInfo } = useSelector((state) => state.auth);
 
   return (
     <>
@@ -42,7 +43,7 @@ function Header() {
                   userInfo && userInfo.isAdmin && (
                     <>
 
-                      <NavDropdown titlr={'Admin'} id="adminname">
+                      <NavDropdown title={'Admin'} id="adminname">
 
                         <NavDropdown.Item as={Link} to={'/admin/productlist'}>
                           Products

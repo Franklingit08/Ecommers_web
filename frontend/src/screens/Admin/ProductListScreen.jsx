@@ -1,11 +1,20 @@
-import {Row,Col,Button,Table} from 'react-bootstrap'
-import {FaPlus, FaEdit,FaTrash} from 'react-icons/fa'
+import { Row, Col, Button, Table } from 'react-bootstrap'
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
+import Loader from '../../components/Loader.jsx'
 import Message from '../../components/Message.jsx'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useGetAllProductsQuery } from '../../slices/productApiSlice.js'
 
 
 
 const ProductListScreen = () => {
+
+  const { data: products, isLoading, error } = useGetAllProductsQuery()
+
+  const navigate = useNavigate()
+
+
+
   return (
     <>
       <Row className="align-items-center">
@@ -13,7 +22,7 @@ const ProductListScreen = () => {
           <h1>Products</h1>
         </Col>
         <Col className="text-end">
-          <Button className="btn-sm m-3">
+          <Button className="btn-sm m-3" onClick={() => navigate('/admin/addProduct')}>
             <FaPlus /> Create Product
           </Button>
         </Col>
