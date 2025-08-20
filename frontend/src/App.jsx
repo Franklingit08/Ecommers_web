@@ -10,7 +10,9 @@ import { ToastContainer } from 'react-toastify';
 
 import ProductListScreen from "./screens/Admin/ProductListScreen";
 import ProductAddScreen from "./screens/Admin/ProductAddScreen.jsx"
+import ProductEditScreen from "./screens/Admin/ProductEditScreen.jsx"
 
+import ProductScreen from "./screens/ProductScreen";
 
 function App() {
   return (
@@ -23,10 +25,12 @@ function App() {
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
 
+                        <Route path="/product/:id" element={<ProductScreen/>}/>
+
             <Route path="/admin/productlist" element={<ProductListScreen/>}/>
 
             <Route path="/admin/addProduct" element={<ProductAddScreen/>}/>
-
+            <Route path="/admin/edit/:id" element={<ProductEditScreen/>}/>
           </Routes>
         </Container>
       </main>

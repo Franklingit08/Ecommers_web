@@ -3,15 +3,27 @@ import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa'
 import Loader from '../../components/Loader.jsx'
 import Message from '../../components/Message.jsx'
 import { useNavigate } from 'react-router-dom'
-import { useGetAllProductsQuery } from '../../slices/productApiSlice.js'
-
+import { useGetAllProductsQuery, useDeleteProductMutation } from '../../slices/productApiSlice.js'
+import { toast,ToastContainer } from 'react-toastify'
 
 
 const ProductListScreen = () => {
 
   const { data: products, isLoading, error } = useGetAllProductsQuery()
 
+  const [deleteProduct] = useDeleteProductMutation()
+
   const navigate = useNavigate()
+
+  const deleteHandler = async (productId) => {
+    try {
+      await deleteProduct(productId).unwrap()
+      toast.success('Product Deleted')
+      refetch()
+    } catch (error) {
+      toast.error(error?.data?.message || error?.message)
+    }
+  }
 
 
 
@@ -53,7 +65,7 @@ const ProductListScreen = () => {
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>
-                    <Button variant="light" className="btn-sm mx-2">
+                    <Button variant="light" className="btn-sm mx-2" onClick={()=>navigate(`/admin/edit/${product._id}`)}>
                       <FaEdit />
                     </Button>
 
