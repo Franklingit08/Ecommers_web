@@ -1,18 +1,19 @@
-import { Route, Routes } from "react-router-dom"
-import HomeScreen from "./screens/HomeScreen.jsx"
-import './assets/styles/bootstrap.custom.css'
-import './assets/styles/index.css'
-import LoginScreen from "./screens/LoginScreen.jsx"
-import RegisterScreen from "./screens/RegisterScreen.jsx"
-import Header from "./components/Header.jsx"
-import { Container } from "react-bootstrap"
-import { ToastContainer } from 'react-toastify';
-
+import { Route, Routes } from "react-router-dom";
+import HomeScreen from "./screens/HomeScreen";
+import "./assets/styles/bootstrap.custom.css";
+import "./assets/styles/index.css";
+import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import Header from "./components/Header";
+import { Container } from "react-bootstrap";
+import {ToastContainer} from "react-toastify";
 import ProductListScreen from "./screens/Admin/ProductListScreen";
-import ProductAddScreen from "./screens/Admin/ProductAddScreen.jsx"
-import ProductEditScreen from "./screens/Admin/ProductEditScreen.jsx"
-
+import ProductAddScreen from "./screens/Admin/ProductAddScreen";
+import ProductEditScreen from "./screens/Admin/ProductEditScreen";
 import ProductScreen from "./screens/ProductScreen";
+import UserListScreen from "./screens/Admin/UserListScreen";
+import UserEditScreen from "./screens/Admin/UserEditScreen";
+
 
 function App() {
   return (
@@ -25,12 +26,17 @@ function App() {
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
 
-                        <Route path="/product/:id" element={<ProductScreen/>}/>
+            <Route path="/product/:id" element={<ProductScreen />} />
 
-            <Route path="/admin/productlist" element={<ProductListScreen/>}/>
+            <Route path="/admin/productlist" element={<ProductListScreen />} />
 
-            <Route path="/admin/addProduct" element={<ProductAddScreen/>}/>
-            <Route path="/admin/edit/:id" element={<ProductEditScreen/>}/>
+            <Route path="/admin/addProduct" element={<ProductAddScreen />} />
+            <Route path="/admin/edit/:id" element={<ProductEditScreen />} />
+
+            <Route path="/admin/userslist" element={<UserListScreen/>}/>
+            <Route path="/admin/user/:id/edit" element={<UserEditScreen/>}/>
+
+
           </Routes>
         </Container>
       </main>

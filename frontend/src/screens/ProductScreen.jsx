@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { Row, Col, ListGroup, Image, Button, Form, Card } from "react-bootstrap";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
@@ -92,7 +93,7 @@ const ProductScreen = () => {
       <Row className="review">
         <Col md={12}>
           <h2>Reviews</h2>
-          {product.reviews.length === 0 && <Message>No Reviews</Message>}
+          {product?.reviews.length === 0 && <Message>No Reviews</Message>}
           <ListGroup variant="flush">
             {product?.reviews.map((review) => (
               <ListGroup.Item key={review._id}>

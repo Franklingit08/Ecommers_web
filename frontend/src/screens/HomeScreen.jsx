@@ -16,11 +16,6 @@ function HomeScreen() {
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (!userInfo) {
-      navigate('/login')
-    }
-  }, [])
 
   return (
     <>

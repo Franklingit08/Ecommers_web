@@ -2,11 +2,30 @@ import React from 'react'
 import { Navbar, Container, Nav, NavDropdown, Badge } from 'react-bootstrap'
 import { FaShoppingCart, FaUser } from 'react-icons/fa'
 import { useNavigate, Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { toast } from 'react-toastify';
+import { useLogoutUserMutation } from '../slices/userApiSlice'
+import { logout } from '../slices/authSlice'
 
 function Header() {
 
   const { userInfo } = useSelector((state) => state.auth);
+
+  const [logoutUser] = useLogoutUserMutation();
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const logoutUserHandler = async () => {
+    try {
+      await logoutUser().unwrap()
+      dispatch(logout())
+      navigate('/')
+
+    } catch (error) {
+      toast.error('logout error')
+    }
+  }
 
   return (
     <>
@@ -27,8 +46,8 @@ function Header() {
                         Profile
                       </NavDropdown.Item>
 
-                      <NavDropdown.Item >
-                        Login
+                      <NavDropdown.Item onClick={logoutUserHandler}>
+                        Logout
                       </NavDropdown.Item>
 
                     </NavDropdown>
