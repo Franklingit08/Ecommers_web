@@ -10,6 +10,7 @@ import { logout } from '../slices/authSlice'
 function Header() {
 
   const { userInfo } = useSelector((state) => state.auth);
+  const {cartItems} = useSelector((state)=>state.cart);
 
   const [logoutUser] = useLogoutUserMutation();
 
@@ -38,6 +39,21 @@ function Header() {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
+
+                <Nav.Link as={Link} to={'/cart'}>
+                <FaShoppingCart/>Cart
+                {
+                  cartItems.length>0 &&
+                  <Badge pill bg="success" style={{marginLeft:'5px'}}>
+                    {
+                      cartItems.reduce(
+                        (acc,item)=> acc+Number(item.qty),0
+                      )
+                    }
+                  </Badge>
+                }
+                </Nav.Link>
+
                 {userInfo ? (
                   <>
                     <NavDropdown title={userInfo.name} id="username">

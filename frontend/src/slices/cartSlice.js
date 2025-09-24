@@ -11,12 +11,12 @@ const initialState = localStorage.getItem('cart') ? JSON.parse(localStorage.getI
 
 const cartSlice = createSlice ({
     name: 'cart',
-    initialState:[],
+    initialState,
     reducers: {
         addToCart: (state, action) => {
             const item = action.payload
 
-            const existingItem = state.cartItem.find((x) => x._id == item._id);
+            const existingItem = state.cartItems.find((x) => x._id == item._id);
 
             if (existingItem) {
                 state.cartItems = state.cartItems.map((x) => {

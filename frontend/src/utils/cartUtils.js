@@ -1,5 +1,5 @@
 const addDecimal = (num) => {
-    return num.tofixed(2);
+    return num.toFixed(2);
 }
 
 const updateCart = (state) => {

@@ -29,6 +29,7 @@ function LoginScreen() {
             navigate('/')
         } catch (error) {
             console.log(error?.data?.message || error?.message)
+            toast.error()
         }
     };
 
