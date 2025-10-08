@@ -4,10 +4,17 @@ import Orders from '../models/orderModel.js'
 
 const createOrder = asyncHandler(async (req, res) => {
 
-    const { cartItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice } = req.body;
+    const { cartItems,
+        shippingAddress,
+        paymentMethod,
+        itemsPrice,
+        taxPrice,
+        shippingPrice,
+        totalPrice,
+        paymentResult } = req.body;
 
     if (cartItems && cartItems.length === 0) {
-        res.ststus(400)
+        res.status(400)
         throw new Error('No Order Items')
     } else {
         const order = new Orders({
@@ -55,19 +62,20 @@ const getOrdersById = asyncHandler(async (req, res) => {
 })
 
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
-    const order = await Orders.findById(req.params.id)
-    if (order) {
-        order.isDelivered = true
-        order.isDelivered = Date.now()
+  const order = await Orders.findById(req.params.id);
 
-        const updatedOrder = await order.save()
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
 
-        res.json(updatedOrder)
-    } else {
-        res.ststus(404)
-        throw new Error('Order not found')
-    }
-})
+    const updatedOrder = await order.save();
+
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+});
 
 const updateOrderToPaid = asyncHandler(async (req, res) => {
     const order = await Orders.findById(req.params.id)
@@ -77,9 +85,9 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 
         const updateOrder = await order.save()
 
-        res.json(updatedOrder)
+        res.json(updateOrder)
     } else {
-        res.ststus(404)
+        res.status(404)
         throw new Error('Order not found')
     }
 })

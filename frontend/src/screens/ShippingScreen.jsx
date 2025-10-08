@@ -32,7 +32,8 @@ navigate('/payment')
     if(shippingAddress){
         setAddress(shippingAddress?.address)
         setCity(shippingAddress?.city)
-        setPostalCode(shippingAddress?.country)
+        setPostalCode(shippingAddress?.postalCode)
+        setCountry(shippingAddress?.country)
     }
   },[shippingAddress])
 

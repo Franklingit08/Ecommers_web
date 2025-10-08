@@ -46,10 +46,10 @@ const cartSlice = createSlice ({
             localStorage.setItem('cart', JSON.stringify(state))
         },
         savepaymentMethod: (state, action) => {
-            state.paymetMethod = AccordionButton.payload
+            state.paymentMethod =  action.payload
             localStorage.setItem('cart', JSON.stringify(state))
         },
-        clearCartItem: (state, action) => {
+        clearCartItems: (state, action) => {
             state.cartItems = []
             return updateCart(state)
         }
@@ -62,7 +62,8 @@ export const {
     resetCart,
     savepaymentMethod,
     saveShippingAddress,
-    clearCartItems
+    clearCartItems,
 } = cartSlice.actions;
+
 
 export default cartSlice.reducer

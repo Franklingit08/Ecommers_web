@@ -11,9 +11,9 @@ orderRoute.route('/mine').get(protect, getMyOrders)
 
 orderRoute.route('/:id').get(protect, getOrdersById)
 
-orderRoute.route('/:id/pay').put(protect, updateOrderToPaid)
+orderRoute.route('/:id/pay').put(protect,updateOrderToPaid)
 
-orderRoute.route('/:id/deliver').put(protect, admin, updateOrderToDelivered)
+orderRoute.route('/:id/deliver').put(protect,admin,updateOrderToDelivered)
 
 
 export default orderRoute;

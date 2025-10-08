@@ -35,7 +35,7 @@ const ProductScreen = () => {
       await createReview({
         productId,
         rating,
-        comment
+        comment,
       }).unwrap()
       refetch()
       toast.success('Review Added')
