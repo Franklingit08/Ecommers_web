@@ -8,6 +8,7 @@ import { clearCartItems } from "../slices/cartSlice";
 import {useCreateOrderMutation,usePayOrderMutation,} from "../slices/orderApiSlice";
 import Loader from "../components/Loader";
 
+
 const PlaceOrderScreen = () => {
   const cart = useSelector((state) => state.cart);
 
@@ -17,10 +18,11 @@ const PlaceOrderScreen = () => {
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
   const [orderToPaid] = usePayOrderMutation();
 
+
   const placeOrderHandler = () => {
     var options = {
-      key: "rzp_test_RMH4oBE5E6YuaQ",
-      key_secret: "lf1gNihsSquPT84PoF4IQVFs",
+      key: 'rzp_test_RMH4oBE5E6YuaQ',
+      key_secret: 'lf1gNihsSquPT84PoF4IQVFs',
       amount: parseInt(cart.totalPrice * 100),
       currency: "INR",
       name: "Franklin Geo",
